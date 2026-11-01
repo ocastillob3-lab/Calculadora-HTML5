@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora básica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f2f4f8;
+        }
+        main {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.1);
+        }
+        h1 { text-align: center; }
+        label { display: block; margin: 14px 0 6px; }
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .botones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px;
+            border: 0;
+            border-radius: 6px;
+            background: #174a78;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        button:hover { background: #24679f; }
+        #resultado {
+            margin-top: 20px;
+            padding: 14px;
+            background: #eaf2f9;
+            border-radius: 6px;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Calculadora básica</h1>
+
+        <label for="numero1">Primer número:</label>
+        <input type="number" id="numero1" step="any" placeholder="Ingrese el primer número">
+
+        <label for="numero2">Segundo número:</label>
+        <input type="number" id="numero2" step="any" placeholder="Ingrese el segundo número">
+
+        <div class="botones">
+            <button type="button" onclick="calcular('sumar')">Sumar</button>
+            <button type="button" onclick="calcular('restar')">Restar</button>
+            <button type="button" onclick="calcular('multiplicar')">Multiplicar</button>
+            <button type="button" onclick="calcular('dividir')">Dividir</button>
+        </div>
+
+        <div id="resultado" role="status" aria-live="polite">Resultado:</div>
+    </main>
+
+    <script>
+        function calcular(operacion) {
+            const campo1 = document.getElementById("numero1");
+            const campo2 = document.getElementById("numero2");
+            const salida = document.getElementById("resultado");
+
+            if (campo1.value.trim() === "" || campo2.value.trim() === "") {
+                salida.textContent = "Por favor, ingrese ambos números.";
+                return;
+            }
+
+            const numero1 = Number(campo1.value);
+            const numero2 = Number(campo2.value);
+
+            if (!Number.isFinite(numero1) || !Number.isFinite(numero2)) {
+                salida.textContent = "Ingrese números válidos.";
+                return;
+            }
+
+            let resultado;
+
+            switch (operacion) {
+                case "sumar":
+                    resultado = numero1 + numero2;
+                    break;
+                case "restar":
+                    resultado = numero1 - numero2;
+                    break;
+                case "multiplicar":
+                    resultado = numero1 * numero2;
+                    break;
+                case "dividir":
+                    if (numero2 === 0) {
+                        salida.textContent = "No se puede dividir entre cero.";
+                        return;
+                    }
+                    resultado = numero1 / numero2;
+                    break;
+                default:
+                    salida.textContent = "Operación no válida.";
+                    return;
+            }
+
+            salida.textContent = "Resultado: " + resultado;
+        }
+    </script>
+</body>
+</html>
